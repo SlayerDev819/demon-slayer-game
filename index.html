@@ -118,11 +118,6 @@
             color: #00d4ff;
             margin-bottom: 20px;
         }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
-        }
         .card {
             background: #141a24;
             padding: 20px;
@@ -225,7 +220,6 @@
         <div class="logo">🐉 <span>Demon</span>Slayer</div>
         <nav>
             <button class="tab-btn active" onclick="showPage('main')">Главная</button>
-            <button class="tab-btn" onclick="showPage('parts')">Части игры</button>
             <button class="tab-btn" onclick="showPage('updates')">Обновления</button>
             <button class="tab-btn" onclick="showPage('howto')">📖 Инструкции</button>
             <button class="tab-btn admin-btn" onclick="showPage('admin')">🔒 Админ</button>
@@ -239,9 +233,8 @@
         <div class="container">
             <h1>🐉 <span>Demon</span>Slayer</h1>
             <p>Эпическая текстовая RPG. Сражайся с демонами, качай героя и становись легендой!</p>
-            <p style="font-size:14px; color:#888;">⚔️ 3 части игры + секретный режим разработчика</p>
             <br>
-            <a href="#" class="btn" onclick="showPage('parts')">Играть</a>
+            <a href="https://raw.githubusercontent.com/SlayerDev819/demon-slayer-game/main/demon_slayer_v3.py" download="demon_slayer_v3.py" class="btn">⬇️ Скачать игру</a>
             <a href="#" class="btn btn-outline" onclick="showPage('howto')">📖 Как установить</a>
         </div>
     </section>
@@ -249,40 +242,16 @@
     <section class="section">
         <div class="container">
             <h2>📖 О проекте</h2>
-            <p style="max-width:700px;">Demon Slayer — это текстовая RPG, которую я создаю сам. В игре есть прокачка, бои, магия, боссы и сюжет. Все версии доступны прямо здесь.</p>
-            <p>🔥 Сейчас доступны:</p>
+            <p style="max-width:700px;">Demon Slayer — это текстовая RPG, которую я создаю сам. В игре есть прокачка, бои, магия, боссы и сюжет. Скачивай, играй и становись легендой!</p>
+            <p>🔥 В игре есть:</p>
             <ul style="color:#aaa; margin-left:20px;">
-                <li>✅ Demon Slayer v1.0 — первая версия</li>
-                <li>✅ Demon Slayer v2.0 — улучшенная</li>
-                <li>✅ Demon Slayer v3.0 — полная</li>
-                <li>🔒 God Mode — секретная разработческая версия</li>
+                <li>⚔️ Боевая система</li>
+                <li>📈 Прокачка и уровни</li>
+                <li>🛡️ Защита и зелья</li>
+                <li>🐉 Боссы с фазами</li>
+                <li>🏙️ Магазин</li>
+                <li>🧠 Навыки (сила, ловкость, интеллект)</li>
             </ul>
-        </div>
-    </section>
-</div>
-
-<!-- ===== ЧАСТИ ИГРЫ ===== -->
-<div id="page-parts" class="hidden-page">
-    <section class="section">
-        <div class="container">
-            <h2>⚔️ Части игры</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>🐉 Часть 1</h3>
-                    <p>Первая версия. Классическая RPG с боями и зельями.</p>
-                    <a href="https://github.com/твой_репозиторий/demon_slayer_v1.py" target="_blank" class="btn">⬇️ Скачать</a>
-                </div>
-                <div class="card">
-                    <h3>⚡ Часть 2</h3>
-                    <p>Добавлены навыки, магазин, новые враги.</p>
-                    <a href="https://github.com/твой_репозиторий/demon_slayer_v2.py" target="_blank" class="btn">⬇️ Скачать</a>
-                </div>
-                <div class="card">
-                    <h3>🔥 Часть 3</h3>
-                    <p>Полная версия. Боссы, фазы, сюжет, инвентарь.</p>
-                    <a href="https://github.com/твой_репозиторий/demon_slayer_v3.py" target="_blank" class="btn">⬇️ Скачать</a>
-                </div>
-            </div>
         </div>
     </section>
 </div>
@@ -293,7 +262,7 @@
         <div class="container">
             <h2>📰 Обновления</h2>
             <ul class="updates-list">
-                <li><strong>🔥 17.06.2026</strong> — Добавлена часть 3 с боссами и фазами.</li>
+                <li><strong>🔥 17.06.2026</strong> — Добавлена финальная версия игры (v3.0).</li>
                 <li><strong>⚡ 10.06.2026</strong> — Обновлена часть 2: навыки и магазин.</li>
                 <li><strong>🐉 01.06.2026</strong> — Релиз первой части игры.</li>
                 <li><strong>🔒 18.06.2026</strong> — Создан секретный режим God Mode.</li>
@@ -307,19 +276,17 @@
 <div id="page-howto" class="hidden-page">
     <section class="section">
         <div class="container">
-            <h2>📖 Подробная инструкция по установке и запуску</h2>
+            <h2>📖 Инструкция по установке и запуску</h2>
 
             <div class="step-box">
                 <h3>📥 Шаг 1. Скачай файл игры</h3>
-                <p>Нажми на кнопку «Скачать» в разделе <strong>«Части игры»</strong>.</p>
+                <p>Нажми на кнопку <strong>«Скачать игру»</strong> на главной странице.</p>
                 <p>Файл скачается в папку <code>Downloads</code> (Загрузки) на твоём телефоне.</p>
-                <p>Файл будет называться: <code>demon_slayer_v1.py</code> (или v2, v3).</p>
             </div>
 
             <div class="step-box">
                 <h3>📦 Шаг 2. Установи Termux</h3>
                 <p>Termux — это приложение, в котором мы будем запускать игру.</p>
-                <p><strong>Где скачать (безопасно):</strong></p>
                 <ul style="color:#aaa; margin-left:20px;">
                     <li>✅ <strong>F-Droid</strong> (рекомендуется): <a href="https://f-droid.org/packages/com.termux/" target="_blank">тык сюда</a></li>
                     <li>✅ <strong>GitHub</strong>: <a href="https://github.com/termux/termux-app/releases" target="_blank">тык сюда</a></li>
@@ -329,49 +296,19 @@
 
             <div class="step-box">
                 <h3>🐍 Шаг 3. Установи Python</h3>
-                <p>Открой Termux и введи команды по очереди (нажимай Enter после каждой):</p>
                 <div class="cmd">pkg update && pkg upgrade -y</div>
                 <div class="cmd">pkg install python -y</div>
-                <p>Это установит Python — язык, на котором написана игра.</p>
             </div>
 
             <div class="step-box">
                 <h3>📂 Шаг 4. Перемести файл игры</h3>
-                <p>Скачанный файл <code>demon_slayer_v1.py</code> лежит в папке <code>Downloads</code>.</p>
-                <p>Введи в Termux команду, чтобы перейти в эту папку:</p>
                 <div class="cmd">cd ~/storage/downloads</div>
-                <p>Теперь ты внутри папки <code>Downloads</code>. Проверь, есть ли файл:</p>
                 <div class="cmd">ls</div>
-                <p>Ты должен увидеть <code>demon_slayer_v1.py</code> (или ту версию, которую скачал).</p>
             </div>
 
             <div class="step-box" style="border-left-color: #00ff88;">
                 <h3>▶️ Шаг 5. Запусти игру</h3>
-                <p>Введи команду, чтобы запустить игру:</p>
-                <div class="cmd">python demon_slayer_v1.py</div>
-                <p>Игра начнётся! 🎮</p>
-                <p style="color:#aaa; font-size:14px;">Если у тебя другая версия — замени <code>v1</code> на <code>v2</code> или <code>v3</code>.</p>
-            </div>
-
-            <div class="step-box" style="border-left-color: #ffcc00;">
-                <h3 style="color:#ffcc00;">🔄 Как обновить игру</h3>
-                <p>Если вышла новая версия, просто скачай новый файл и замени старый.</p>
-                <p>Повтори шаги 1, 4 и 5.</p>
-            </div>
-
-            <div class="step-box" style="border-left-color: #ff4444;">
-                <h3 style="color:#ff4444;">❌ Что делать, если игра не запускается</h3>
-                <ul style="color:#aaa; margin-left:20px;">
-                    <li>➡️ Проверь, что ты в папке <code>~/storage/downloads</code></li>
-                    <li>➡️ Проверь, что файл называется точно <code>demon_slayer_v1.py</code></li>
-                    <li>➡️ Проверь, что установлен Python (<code>pkg install python -y</code>)</li>
-                    <li>➡️ Если ошибка — напиши автору игры</li>
-                </ul>
-            </div>
-
-            <div class="step-box" style="border-left-color: #ffcc00;">
-                <h3 style="color:#ffcc00;">🔒 Для разработчика</h3>
-                <p>Если ты автор игры и хочешь получить доступ к God Mode — войди в админ-панель.</p>
+                <div class="cmd">python demon_slayer_v3.py</div>
             </div>
         </div>
     </section>
@@ -393,10 +330,8 @@
                 <h3>👑 Панель управления</h3>
                 <p>Добро пожаловать, разработчик!</p>
                 <hr style="border-color:#1e2838; margin:15px 0;">
-                <h4>📥 Скачать части игры (код скрыт):</h4>
-                <a href="#" class="btn" onclick="alert('Скачивание v1.0')">⬇️ Часть 1</a>
-                <a href="#" class="btn" onclick="alert('Скачивание v2.0')">⬇️ Часть 2</a>
-                <a href="#" class="btn" onclick="alert('Скачивание v3.0')">⬇️ Часть 3</a>
+                <h4>📥 Скачать игру (код скрыт):</h4>
+                <a href="https://raw.githubusercontent.com/SlayerDev819/demon-slayer-game/main/demon_slayer_v3.py" download="demon_slayer_v3.py" class="btn">⬇️ Скачать игру</a>
                 <hr style="border-color:#1e2838; margin:15px 0;">
                 <h4>🔓 God Mode</h4>
                 <input type="password" id="godPass" placeholder="Введите пароль God Mode..." style="width:100%; padding:12px; background:#0b0e14; border:1px solid #1e2838; color:white; border-radius:10px; font-size:16px;">
@@ -411,7 +346,6 @@
                     <p>🛡️ Защита: ∞</p>
                     <p>🧪 Зелья: ∞</p>
                     <p>🔥 Магия: ∞</p>
-                    <p style="color:#888;">Теперь ты — бог. Играй как разработчик.</p>
                 </div>
             </div>
         </div>
@@ -430,7 +364,7 @@
     const GOD_PASSWORD = "def";
 
     function showPage(id) {
-        const pages = ['main', 'parts', 'updates', 'howto', 'admin'];
+        const pages = ['main', 'updates', 'howto', 'admin'];
         pages.forEach(p => {
             const el = document.getElementById('page-' + p);
             if (el) {
@@ -450,7 +384,6 @@
 
         const map = {
             'main': 'Главная',
-            'parts': 'Части игры',
             'updates': 'Обновления',
             'howto': 'Инструкции',
             'admin': 'Админ'
@@ -489,5 +422,4 @@
 </script>
 
 </body>
-</html>
-
+                        </html>
