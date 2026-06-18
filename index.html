@@ -4,490 +4,270 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demon Slayer — официальный сайт</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #0b0e14;
-            color: #f0f0f0;
-            line-height: 1.6;
-        }
-        a {
-            color: #00d4ff;
-            text-decoration: none;
-        }
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 20px;
-        }
-        header {
-            background: #141a24;
-            padding: 20px 0;
-            border-bottom: 2px solid #00d4ff;
-        }
-        header .container {
+            color: #fff;
+            min-height: 100vh;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            flex-wrap: wrap;
+            justify-content: center;
+            padding: 30px 20px;
+            animation: fadeIn 1.5s ease-in-out;
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(20, 26, 36, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 40px 35px;
+            border-radius: 40px;
+            border: 2px solid #00d4ff;
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.2);
+            transition: 0.3s;
+            animation: glowPulse 3s infinite alternate;
+        }
+
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 30px rgba(0, 212, 255, 0.1); }
+            100% { box-shadow: 0 0 60px rgba(0, 212, 255, 0.4); }
+        }
+
         .logo {
-            font-size: 28px;
-            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            font-size: 52px;
+            font-weight: 900;
+            letter-spacing: 2px;
             color: #ff4444;
+            text-shadow: 0 0 20px #ff4444;
+            margin-bottom: 10px;
+            animation: bounceIn 1s ease;
         }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         .logo span {
             color: #00d4ff;
+            text-shadow: 0 0 20px #00d4ff;
         }
-        nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .tab-btn {
-            background: #141a24;
-            border: 1px solid #1e2838;
-            color: #f0f0f0;
-            padding: 10px 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-        .tab-btn:hover {
-            background: #1e2838;
-        }
-        .tab-btn.active {
-            background: #00d4ff;
-            color: #0b0e14;
-            font-weight: bold;
-        }
-        .tab-btn.admin-btn {
-            border-color: #ffcc00;
-            color: #ffcc00;
-        }
-        .tab-btn.admin-btn:hover {
-            background: #ffcc00;
-            color: #0b0e14;
-        }
-        .hero {
+
+        .subtitle {
             text-align: center;
-            padding: 60px 0;
-            background: linear-gradient(135deg, #0b0e14, #1a2332);
+            font-size: 18px;
+            color: #aaa;
+            margin-bottom: 30px;
+            font-style: italic;
         }
-        .hero h1 {
-            font-size: 48px;
-        }
-        .hero h1 span {
-            color: #ff4444;
-        }
+
         .btn {
+            display: inline-block;
             background: #00d4ff;
             color: #0b0e14;
-            padding: 12px 30px;
-            border-radius: 30px;
+            padding: 16px 40px;
+            border-radius: 60px;
             font-weight: bold;
-            display: inline-block;
-            margin: 10px 5px;
+            font-size: 20px;
+            text-decoration: none;
             border: none;
             cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 25px #00d4ff66;
+            margin: 10px 5px;
         }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: #fff;
+            box-shadow: 0 0 50px #00d4ffcc;
+        }
+
         .btn-outline {
             background: transparent;
             border: 2px solid #00d4ff;
             color: #00d4ff;
+            box-shadow: none;
         }
+
         .btn-outline:hover {
             background: #00d4ff;
             color: #0b0e14;
         }
-        .btn-gold {
-            background: #ffcc00;
-            color: #0b0e14;
-        }
+
         .section {
-            padding: 40px 0;
-            border-bottom: 1px solid #1e2838;
+            margin: 40px 0 20px;
         }
+
         .section h2 {
-            font-size: 32px;
+            font-size: 28px;
             color: #00d4ff;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            border-left: 5px solid #ff4444;
+            padding-left: 15px;
         }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
+
+        .section p, .section li {
+            color: #ccc;
+            font-size: 17px;
+            line-height: 1.8;
         }
-        .card {
-            background: #141a24;
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid #1e2838;
-        }
-        .card h3 {
-            color: white;
-        }
-        .card p {
-            color: #aaa;
-        }
-        .updates-list li {
-            background: #141a24;
-            margin: 10px 0;
-            padding: 15px;
-            border-left: 4px solid #00d4ff;
+
+        .section ul {
             list-style: none;
+            padding: 0;
         }
-        footer {
+
+        .section ul li::before {
+            content: "🔥 ";
+        }
+
+        .history-box {
             background: #141a24;
+            padding: 20px 25px;
+            border-radius: 20px;
+            border-left: 6px solid #ff4444;
+            margin: 15px 0;
+        }
+
+        .history-box p {
+            margin: 8px 0;
+        }
+
+        .instruction-step {
+            background: #141a24;
+            padding: 16px 22px;
+            border-radius: 16px;
+            margin: 12px 0;
+            border-left: 5px solid #00d4ff;
+            transition: 0.3s;
+        }
+
+        .instruction-step:hover {
+            background: #1e2838;
+            transform: translateX(6px);
+        }
+
+        .instruction-step code {
+            background: #0b0e14;
+            padding: 4px 12px;
+            border-radius: 8px;
+            color: #00d4ff;
+            font-size: 15px;
+        }
+
+        .footer {
+            margin-top: 40px;
             text-align: center;
-            padding: 20px;
             color: #555;
             font-size: 14px;
         }
-        .hidden-page {
-            display: none;
-        }
-        .active-page {
-            display: block;
-        }
-        .step-box {
-            background: #141a24;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 15px 0;
-            border-left: 5px solid #00d4ff;
-        }
-        .step-box .cmd {
-            background: #0b0e14;
-            padding: 12px;
-            border-radius: 10px;
+
+        .footer a {
             color: #00d4ff;
-            font-family: monospace;
-            display: block;
-            margin: 8px 0;
+            text-decoration: none;
         }
-        .password-box {
-            background: #1a1f2e;
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 400px;
-            margin: 20px auto;
-            border: 2px solid #00d4ff;
+
+        .footer a:hover {
+            text-decoration: underline;
         }
-        .password-box input {
-            width: 100%;
-            padding: 12px;
-            background: #0b0e14;
-            border: 1px solid #1e2838;
-            color: white;
-            border-radius: 10px;
-            font-size: 16px;
-        }
-        .password-box input:focus {
-            border-color: #00d4ff;
-            outline: none;
-        }
-        .error-msg {
-            color: #ff4444;
-            font-size: 14px;
-            margin-top: 10px;
-        }
-        .admin-panel {
-            background: #1a1f2e;
-            padding: 25px;
-            border-radius: 15px;
-            border: 2px solid #ffcc00;
-        }
-        @media (max-width: 700px) {
-            header .container {
-                flex-direction: column;
-                gap: 10px;
-                align-items: stretch;
+
+        @media (max-width: 600px) {
+            .logo {
+                font-size: 32px;
+                flex-wrap: wrap;
             }
-            nav {
-                justify-content: center;
+            .container {
+                padding: 25px 18px;
             }
-            .hero h1 {
-                font-size: 30px;
+            .btn {
+                width: 100%;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-
-<header>
     <div class="container">
-        <div class="logo">🐉 <span>Demon</span>Slayer</div>
-        <nav>
-            <button class="tab-btn active" onclick="showPage('main')">Главная</button>
-            <button class="tab-btn" onclick="showPage('parts')">Части игры</button>
-            <button class="tab-btn" onclick="showPage('updates')">Обновления</button>
-            <button class="tab-btn" onclick="showPage('howto')">📖 Инструкции</button>
-            <button class="tab-btn admin-btn" onclick="showPage('admin')">🔒 Админ</button>
-        </nav>
+        <div class="logo">
+            🐉 <span>Demon</span>Slayer
+        </div>
+        <div class="subtitle">🔥 Эпическая текстовая RPG. Сражайся, качайся, побеждай!</div>
+
+        <div style="text-align: center; margin: 25px 0;">
+            <a href="https://raw.githubusercontent.com/SlayerDev819/demon-slayer-game/main/demon_slayer_v1.py" download="demon_slayer_v1.py" class="btn">⬇️ Скачать игру</a>
+            <a href="#history" class="btn btn-outline">📜 История</a>
+            <a href="#howto" class="btn btn-outline">📖 Инструкция</a>
+        </div>
+
+        <!-- ===== ИСТОРИЯ ===== -->
+        <div id="history" class="section">
+            <h2>📜 История Demon Slayer</h2>
+            <div class="history-box">
+                <p>🐉 <strong>Версия 1.0</strong> — рождение игры. Простые бои и зелья.</p>
+                <p>⚡ <strong>Версия 2.0</strong> — добавлены навыки, магазин, новые враги.</p>
+                <p>🔥 <strong>Версия 3.0</strong> — финальная. Боссы, фазы, магия, инвентарь и сюжет.</p>
+                <p style="margin-top:10px; color:#00d4ff;">🎯 Сейчас доступна только финальная версия — всё лучшее в одной игре.</p>
+            </div>
+        </div>
+
+        <!-- ===== ИНСТРУКЦИЯ ===== -->
+        <div id="howto" class="section">
+            <h2>📖 Как установить и играть</h2>
+
+            <div class="instruction-step">
+                <strong>📥 Шаг 1.</strong> Нажми <strong>«Скачать игру»</strong> — файл сохранится на телефон.
+            </div>
+
+            <div class="instruction-step">
+                <strong>📦 Шаг 2.</strong> Установи Termux (приложение для запуска игр).<br>
+                Скачай с <a href="https://f-droid.org/packages/com.termux/" target="_blank">F-Droid</a> (рекомендуется).
+            </div>
+
+            <div class="instruction-step">
+                <strong>🐍 Шаг 3.</strong> Открой Termux и введи:<br>
+                <code>pkg update && pkg upgrade -y</code><br>
+                <code>pkg install python -y</code>
+            </div>
+
+            <div class="instruction-step">
+                <strong>📂 Шаг 4.</strong> Перемести скачанный файл в папку <code>~/storage/downloads</code>.<br>
+                В Termux: <code>cd ~/storage/downloads</code>
+            </div>
+
+            <div class="instruction-step">
+                <strong>▶️ Шаг 5.</strong> Запусти игру:<br>
+                <code>python demon_slayer_v1.py</code>
+            </div>
+
+            <div style="text-align:center; margin-top:20px;">
+                <a href="https://raw.githubusercontent.com/SlayerDev819/demon-slayer-game/main/demon_slayer_v1.py" download="demon_slayer_v1.py" class="btn">⬇️ Скачать игру</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            🐉 Demon Slayer — создано для настоящих разработчиков.<br>
+            <a href="#">Telegram</a> · <a href="#">GitHub</a> · <a href="#">VK</a>
+        </div>
     </div>
-</header>
-
-<!-- ===== ГЛАВНАЯ ===== -->
-<div id="page-main" class="active-page">
-    <section class="hero">
-        <div class="container">
-            <h1>🐉 <span>Demon</span>Slayer</h1>
-            <p>Эпическая текстовая RPG. Сражайся с демонами, качай героя и становись легендой!</p>
-            <p style="font-size:14px; color:#888;">⚔️ 3 части игры + секретный режим разработчика</p>
-            <br>
-            <a href="#" class="btn" onclick="showPage('parts')">Играть</a>
-            <a href="#" class="btn btn-outline" onclick="showPage('howto')">📖 Как установить</a>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <h2>📖 О проекте</h2>
-            <p style="max-width:700px;">Demon Slayer — это текстовая RPG, которую я создаю сам. В игре есть прокачка, бои, магия, боссы и сюжет. Все версии доступны прямо здесь.</p>
-            <p>🔥 Сейчас доступны:</p>
-            <ul style="color:#aaa; margin-left:20px;">
-                <li>✅ Demon Slayer v1.0 — первая версия</li>
-                <li>✅ Demon Slayer v2.0 — улучшенная</li>
-                <li>✅ Demon Slayer v3.0 — полная</li>
-                <li>🔒 God Mode — секретная разработческая версия</li>
-            </ul>
-        </div>
-    </section>
-</div>
-
-<!-- ===== ЧАСТИ ИГРЫ ===== -->
-<div id="page-parts" class="hidden-page">
-    <section class="section">
-        <div class="container">
-            <h2>⚔️ Части игры</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>🐉 Часть 1</h3>
-                    <p>Первая версия. Классическая RPG с боями и зельями.</p>
-                    <a href="https://github.com/твой_репозиторий/demon_slayer_v1.py" target="_blank" class="btn">⬇️ Скачать</a>
-                </div>
-                <div class="card">
-                    <h3>⚡ Часть 2</h3>
-                    <p>Добавлены навыки, магазин, новые враги.</p>
-                    <a href="https://github.com/твой_репозиторий/demon_slayer_v2.py" target="_blank" class="btn">⬇️ Скачать</a>
-                </div>
-                <div class="card">
-                    <h3>🔥 Часть 3</h3>
-                    <p>Полная версия. Боссы, фазы, сюжет, инвентарь.</p>
-                    <a href="https://github.com/твой_репозиторий/demon_slayer_v3.py" target="_blank" class="btn">⬇️ Скачать</a>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
-
-<!-- ===== ОБНОВЛЕНИЯ ===== -->
-<div id="page-updates" class="hidden-page">
-    <section class="section">
-        <div class="container">
-            <h2>📰 Обновления</h2>
-            <ul class="updates-list">
-                <li><strong>🔥 17.06.2026</strong> — Добавлена часть 3 с боссами и фазами.</li>
-                <li><strong>⚡ 10.06.2026</strong> — Обновлена часть 2: навыки и магазин.</li>
-                <li><strong>🐉 01.06.2026</strong> — Релиз первой части игры.</li>
-                <li><strong>🔒 18.06.2026</strong> — Создан секретный режим God Mode.</li>
-                <li><strong>🌐 20.06.2026</strong> — Запущен официальный сайт.</li>
-            </ul>
-        </div>
-    </section>
-</div>
-
-<!-- ===== ИНСТРУКЦИИ ===== -->
-<div id="page-howto" class="hidden-page">
-    <section class="section">
-        <div class="container">
-            <h2>📖 Подробная инструкция по установке и запуску</h2>
-
-            <div class="step-box">
-                <h3>📥 Шаг 1. Скачай файл игры</h3>
-                <p>Нажми на кнопку «Скачать» в разделе <strong>«Части игры»</strong>.</p>
-                <p>Файл скачается в папку <code>Downloads</code> (Загрузки) на твоём телефоне.</p>
-                <p>Файл будет называться: <code>demon_slayer_v1.py</code> (или v2, v3).</p>
-            </div>
-
-            <div class="step-box">
-                <h3>📦 Шаг 2. Установи Termux</h3>
-                <p>Termux — это приложение, в котором мы будем запускать игру.</p>
-                <p><strong>Где скачать (безопасно):</strong></p>
-                <ul style="color:#aaa; margin-left:20px;">
-                    <li>✅ <strong>F-Droid</strong> (рекомендуется): <a href="https://f-droid.org/packages/com.termux/" target="_blank">тык сюда</a></li>
-                    <li>✅ <strong>GitHub</strong>: <a href="https://github.com/termux/termux-app/releases" target="_blank">тык сюда</a></li>
-                </ul>
-                <p style="color:#ffcc00;">⚠️ Не скачивайте Termux из Google Play — там старая версия!</p>
-            </div>
-
-            <div class="step-box">
-                <h3>🐍 Шаг 3. Установи Python</h3>
-                <p>Открой Termux и введи команды по очереди (нажимай Enter после каждой):</p>
-                <div class="cmd">pkg update && pkg upgrade -y</div>
-                <div class="cmd">pkg install python -y</div>
-                <p>Это установит Python — язык, на котором написана игра.</p>
-            </div>
-
-            <div class="step-box">
-                <h3>📂 Шаг 4. Перемести файл игры</h3>
-                <p>Скачанный файл <code>demon_slayer_v1.py</code> лежит в папке <code>Downloads</code>.</p>
-                <p>Введи в Termux команду, чтобы перейти в эту папку:</p>
-                <div class="cmd">cd ~/storage/downloads</div>
-                <p>Теперь ты внутри папки <code>Downloads</code>. Проверь, есть ли файл:</p>
-                <div class="cmd">ls</div>
-                <p>Ты должен увидеть <code>demon_slayer_v1.py</code> (или ту версию, которую скачал).</p>
-            </div>
-
-            <div class="step-box" style="border-left-color: #00ff88;">
-                <h3>▶️ Шаг 5. Запусти игру</h3>
-                <p>Введи команду, чтобы запустить игру:</p>
-                <div class="cmd">python demon_slayer_v1.py</div>
-                <p>Игра начнётся! 🎮</p>
-                <p style="color:#aaa; font-size:14px;">Если у тебя другая версия — замени <code>v1</code> на <code>v2</code> или <code>v3</code>.</p>
-            </div>
-
-            <div class="step-box" style="border-left-color: #ffcc00;">
-                <h3 style="color:#ffcc00;">🔄 Как обновить игру</h3>
-                <p>Если вышла новая версия, просто скачай новый файл и замени старый.</p>
-                <p>Повтори шаги 1, 4 и 5.</p>
-            </div>
-
-            <div class="step-box" style="border-left-color: #ff4444;">
-                <h3 style="color:#ff4444;">❌ Что делать, если игра не запускается</h3>
-                <ul style="color:#aaa; margin-left:20px;">
-                    <li>➡️ Проверь, что ты в папке <code>~/storage/downloads</code></li>
-                    <li>➡️ Проверь, что файл называется точно <code>demon_slayer_v1.py</code></li>
-                    <li>➡️ Проверь, что установлен Python (<code>pkg install python -y</code>)</li>
-                    <li>➡️ Если ошибка — напиши автору игры</li>
-                </ul>
-            </div>
-
-            <div class="step-box" style="border-left-color: #ffcc00;">
-                <h3 style="color:#ffcc00;">🔒 Для разработчика</h3>
-                <p>Если ты автор игры и хочешь получить доступ к God Mode — войди в админ-панель.</p>
-            </div>
-        </div>
-    </section>
-</div>
-
-<!-- ===== АДМИН-ПАНЕЛЬ ===== -->
-<div id="page-admin" class="hidden-page">
-    <section class="section">
-        <div class="container">
-            <h2>🔒 Админ-панель</h2>
-            <div class="password-box">
-                <h3>Введите пароль администратора</h3>
-                <input type="password" id="adminPass" placeholder="Пароль...">
-                <br><br>
-                <button class="btn btn-gold" onclick="checkAdmin()">Войти</button>
-                <div id="adminError" class="error-msg"></div>
-            </div>
-            <div id="adminPanel" style="display:none;" class="admin-panel">
-                <h3>👑 Панель управления</h3>
-                <p>Добро пожаловать, разработчик!</p>
-                <hr style="border-color:#1e2838; margin:15px 0;">
-                <h4>📥 Скачать части игры (код скрыт):</h4>
-                <a href="#" class="btn" onclick="alert('Скачивание v1.0')">⬇️ Часть 1</a>
-                <a href="#" class="btn" onclick="alert('Скачивание v2.0')">⬇️ Часть 2</a>
-                <a href="#" class="btn" onclick="alert('Скачивание v3.0')">⬇️ Часть 3</a>
-                <hr style="border-color:#1e2838; margin:15px 0;">
-                <h4>🔓 God Mode</h4>
-                <input type="password" id="godPass" placeholder="Введите пароль God Mode..." style="width:100%; padding:12px; background:#0b0e14; border:1px solid #1e2838; color:white; border-radius:10px; font-size:16px;">
-                <br><br>
-                <button class="btn btn-gold" onclick="checkGodMode()">Войти в God Mode</button>
-                <div id="godError" class="error-msg"></div>
-                <div id="godPanel" style="display:none; margin-top:15px; background:#0b0e14; padding:20px; border-radius:10px; border:1px solid #ffcc00;">
-                    <h3 style="color:#ffcc00;">🔥 GOD MODE АКТИВИРОВАН</h3>
-                    <p>💎 Золото: ∞</p>
-                    <p>❤️ Здоровье: ∞</p>
-                    <p>⚔️ Атака: ∞</p>
-                    <p>🛡️ Защита: ∞</p>
-                    <p>🧪 Зелья: ∞</p>
-                    <p>🔥 Магия: ∞</p>
-                    <p style="color:#888;">Теперь ты — бог. Играй как разработчик.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
-
-<footer>
-    <div class="container">
-        <p>🐉 Demon Slayer — официальный сайт. Все права защищены.</p>
-        <p style="font-size:12px; color:#444;">Создано для настоящих разработчиков.</p>
-    </div>
-</footer>
-
-<script>
-    const ADMIN_PASSWORD = "bd";
-    const GOD_PASSWORD = "def";
-
-    function showPage(id) {
-        const pages = ['main', 'parts', 'updates', 'howto', 'admin'];
-        pages.forEach(p => {
-            const el = document.getElementById('page-' + p);
-            if (el) {
-                el.classList.remove('active-page');
-                el.classList.add('hidden-page');
-            }
-        });
-
-        const target = document.getElementById('page-' + id);
-        if (target) {
-            target.classList.remove('hidden-page');
-            target.classList.add('active-page');
-        }
-
-        const btns = document.querySelectorAll('.tab-btn');
-        btns.forEach(btn => btn.classList.remove('active'));
-
-        const map = {
-            'main': 'Главная',
-            'parts': 'Части игры',
-            'updates': 'Обновления',
-            'howto': 'Инструкции',
-            'admin': 'Админ'
-        };
-        const label = map[id] || 'Главная';
-        const activeBtn = Array.from(btns).find(btn => btn.textContent.trim() === label || btn.textContent.includes(label));
-        if (activeBtn) activeBtn.classList.add('active');
-    }
-
-    function checkAdmin() {
-        const pass = document.getElementById('adminPass').value;
-        const error = document.getElementById('adminError');
-        const panel = document.getElementById('adminPanel');
-
-        if (pass === ADMIN_PASSWORD) {
-            error.textContent = '';
-            panel.style.display = 'block';
-            document.querySelector('.password-box').style.display = 'none';
-        } else {
-            error.textContent = '❌ Неверный пароль!';
-        }
-    }
-
-    function checkGodMode() {
-        const pass = document.getElementById('godPass').value;
-        const error = document.getElementById('godError');
-        const panel = document.getElementById('godPanel');
-
-        if (pass === GOD_PASSWORD) {
-            error.textContent = '';
-            panel.style.display = 'block';
-        } else {
-            error.textContent = '❌ Неверный пароль God Mode!';
-        }
-    }
-</script>
-
 </body>
 </html>
-
