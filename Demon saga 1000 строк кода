@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demon Saga — 1000 строк</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0b0e14;color:#fff;font-family:'Segoe UI',sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:10px;text-align:center}
+        .game{max-width:640px;width:100%;background:#141a24;padding:20px;border-radius:30px;border:1px solid #00d4ff;box-shadow:0 0 60px rgba(0,212,255,0.08)}
+        h1{font-size:28px;color:#ff4444;text-shadow:0 0 20px #ff444466}
+        h1 span{color:#00d4ff}
+        .stats{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:3px;background:#0b0e14;padding:8px;border-radius:16px;margin:8px 0;font-size:10px;border:1px solid #1e2838}
+        .stats span{color:#ffcc00}
+        .monster{font-size:80px;margin:6px 0;filter:drop-shadow(0 0 30px #ff444466);animation:float 3s ease-in-out infinite}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+        .hp-bar{background:#1e2838;border-radius:20px;height:14px;margin:4px 0;overflow:hidden}
+        .hp-bar .fill{background:#ff4444;height:100%;width:100%;transition:0.3s;border-radius:20px}
+        .hp-bar .fill.boss{background:#ff8800}
+        .hp-bar .fill.legendary{background:linear-gradient(90deg,#ff4444,#ffcc00,#44cc88)}
+        .btn{background:#00d4ff;color:#0b0e14;border:none;padding:10px 16px;border-radius:30px;font-size:14px;font-weight:bold;cursor:pointer;transition:0.3s;margin:3px 0;width:100%}
+        .btn:hover{background:#fff;transform:scale(1.02)}
+        .btn-gold{background:#ffcc00}
+        .btn-gold:hover{background:#ffe066}
+        .btn-red{background:#ff4444;color:#fff}
+        .btn-red:hover{background:#ff6666}
+        .btn-purple{background:#aa66ff;color:#fff}
+        .btn-purple:hover{background:#bb77ff}
+        .btn-green{background:#44cc88;color:#0b0e14}
+        .btn-green:hover{background:#66dd99}
+        .btn-pink{background:#ff66aa;color:#0b0e14}
+        .btn-pink:hover{background:#ff88bb}
+        .btn-rainbow{background:linear-gradient(45deg,#ff4444,#ffcc00,#44cc88,#aa66ff);color:#0b0e14}
+        .btn-rainbow:hover{transform:scale(1.05)}
+        .shop{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin:6px 0}
+        .shop button{background:#0b0e14;border:1px solid #1e2838;color:#fff;padding:6px;border-radius:12px;font-size:10px;cursor:pointer;transition:0.3s}
+        .shop button:hover{border-color:#00d4ff;background:#1a2332}
+        .log{background:#0b0e14;padding:8px;border-radius:16px;margin:6px 0;font-size:13px;color:#888;min-height:40px;border:1px solid #1e2838;overflow-y:auto;max-height:80px}
+        .log span{color:#ffcc00}
+        .quest-box{background:#0b0e14;padding:8px;border-radius:16px;margin:4px 0;border-left:4px solid #ffcc00;text-align:left;font-size:12px;color:#aaa}
+        .quest-box .title{color:#ffcc00;font-weight:bold}
+        .dialog-box{background:#0b0e14;padding:10px;border-radius:16px;margin:4px 0;border:1px solid #00d4ff;text-align:left;font-size:13px;color:#ddd;min-height:60px}
+        .dialog-box .speaker{color:#ffcc00;font-weight:bold}
+        .dialog-box .choice-btn{background:#1a2332;border:1px solid #1e2838;color:#fff;padding:4px 12px;border-radius:12px;margin:3px;cursor:pointer;font-size:11px;transition:0.3s}
+        .dialog-box .choice-btn:hover{background:#00d4ff;color:#0b0e14}
+        .class-select{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:4px;margin:6px 0}
+        .class-select button{background:#0b0e14;border:1px solid #1e2838;color:#fff;padding:6px;border-radius:12px;font-size:10px;cursor:pointer;transition:0.3s}
+        .class-select button:hover{border-color:#ffcc00;background:#1a2332}
+        .class-select button.active{border-color:#ffcc00;background:#1a2332}
+        .inventory{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:3px;margin:4px 0}
+        .inventory .item{background:#0b0e14;border:1px solid #1e2838;padding:4px;border-radius:8px;font-size:9px;color:#aaa}
+        .inventory .item span{color:#ffcc00;font-weight:bold}
+        .tabs{display:flex;gap:4px;margin:6px 0;flex-wrap:wrap}
+        .tabs button{background:#0b0e14;border:1px solid #1e2838;color:#aaa;padding:6px 10px;border-radius:12px;font-size:11px;cursor:pointer;transition:0.3s;flex:1}
+        .tabs button:hover{border-color:#00d4ff;color:#fff}
+        .tabs button.active{background:#00d4ff;color:#0b0e14;border-color:#00d4ff;font-weight:bold}
+        .tab-content{display:none}
+        .tab-content.active{display:block}
+        .promo-box{background:#0b0e14;border:1px solid #ffcc00;padding:12px;border-radius:16px;margin:6px 0}
+        .promo-box input{background:#0b0e14;border:1px solid #1e2838;color:#fff;padding:8px;border-radius:12px;font-size:14px;width:60%}
+        .promo-box input:focus{border-color:#ffcc00;outline:none}
+        .promo-box .btn{width:35%;padding:8px}
+        .badge{font-size:9px;background:#1e2838;padding:2px 8px;border-radius:20px;display:inline-block}
+        .badge.boss{color:#ff8800}
+        .badge.legendary{background:linear-gradient(45deg,#ff4444,#ffcc00);color:#0b0e14}
+        .buff-bar{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0;justify-content:center}
+        .buff{background:#1a2332;border:1px solid #1e2838;padding:4px 10px;border-radius:20px;font-size:10px;color:#888;display:none}
+        .buff.active{display:inline-block}
+        .buff .time{color:#ffcc00;font-weight:bold}
+        .mini-game{background:#0b0e14;border:1px solid #44cc88;padding:12px;border-radius:16px;margin:6px 0}
+        .mini-game input{background:#0b0e14;border:1px solid #1e2838;color:#fff;padding:6px;border-radius:12px;width:70px;margin:4px}
+        .achievement{background:#0b0e14;padding:4px 10px;border-radius:12px;margin:3px 0;font-size:11px;border-left:3px solid #ffcc00}
+        .achievement.done{border-left-color:#44cc88;color:#44cc88}
+        @media(max-width:500px){.game{padding:12px}.stats{font-size:8px;grid-template-columns:1fr 1fr 1fr}.monster{font-size:55px}.shop{grid-template-columns:1fr 1fr}.class-select{grid-template-columns:1fr 1fr}.inventory{grid-template-columns:1fr 1fr}.tabs button{font-size:9px;padding:4px 6px}.promo-box input{width:50%}.promo-box .btn{width:45%}}
+    </style>
+</head>
+<body>
+<div class="game">
+    <h1>🐉 <span>Demon</span>Saga</h1>
+
+    <div class="stats">
+        <div>❤️ HP: <span id="hp">100</span></div>
+        <div>⚔️ Атака: <span id="atk">10</span></div>
+        <div>🛡️ Защита: <span id="def">2</span></div>
+        <div>💰 Золото: <span id="gold">0</span></div>
+        <div>📈 Уровень: <span id="lvl">1</span></div>
+        <div>☠️ Убито: <span id="kills">0</span></div>
+        <div>🔥 Мана: <span id="mana">50</span>/<span id="maxMana">50</span></div>
+        <div>⭐ Звёзды: <span id="stars">0</span></div>
+        <div>🎯 Очки: <span id="points">0</span></div>
+        <div>🏆 Боссы: <span id="bossKills">0</span></div>
+        <div>💬 Репутация: <span id="rep">0</span></div>
+        <div>📅 День: <span id="day">1</span></div>
+    </div>
+
+    <div class="buff-bar" id="buffBar">
+        <div class="buff" id="buffMana"><span id="buffManaText">💧 +50% маны</span> <span class="time" id="buffManaTime">0s</span></div>
+        <div class="buff" id="buffExp"><span id="buffExpText">⚡ x2 опыт</span> <span class="time" id="buffExpTime">0s</span></div>
+        <div class="buff" id="buffCrit"><span id="buffCritText">💥 +10% крит</span> <span class="time" id="buffCritTime">0s</span></div>
+        <div class="buff" id="buffShield"><span id="buffShieldText">🛡️ Щит</span> <span class="time" id="buffShieldTime">0s</span></div>
+        <div class="buff" id="buffGold"><span id="buffGoldText">💰 x2 золото</span> <span class="time" id="buffGoldTime">0s</span></div>
+    </div>
+
+    <div class="monster" id="monsterEmoji">👹</div>
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span id="monsterName" style="font-size:14px;color:#aaa;">Гоблин</span>
+        <span id="bossTag" class="badge boss" style="display:none;">👑 БОСС</span>
+        <span id="legendaryTag" class="badge legendary" style="display:none;">⭐ ЛЕГЕНДА</span>
+    </div>
+    <div class="hp-bar"><div class="fill" id="monsterHp" style="width:100%"></div></div>
+
+    <div style="display:flex; gap:4px; margin:4px 0;">
+        <button class="btn" id="attack
