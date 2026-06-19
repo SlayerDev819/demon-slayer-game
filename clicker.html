@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demon Clicker 2.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body {
+            background: #0b0e14;
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: bgPulse 8s infinite alternate;
+        }
+        @keyframes bgPulse {
+            0% { background: #0b0e14; }
+            100% { background: #1a0f1a; }
+        }
+        .container {
+            max-width: 550px;
+            width: 100%;
+            padding: 30px 20px;
+            text-align: center;
+            background: rgba(20, 26, 36, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            border: 2px solid #00d4ff;
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.2);
+            animation: glowPulse 4s infinite alternate;
+        }
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 30px rgba(0, 212, 255, 0.1); }
+            100% { box-shadow: 0 0 80px rgba(255, 68, 68, 0.4); }
+        }
+        h1 {
+            font-size: 36px;
+            color: #ff4444;
+            text-shadow: 0 0 20px #ff444466;
+        }
+        h1 span {
+            color: #00d4ff;
+        }
+        .demon {
+            font-size: 140px;
+            cursor: pointer;
+            transition: 0.1s;
+            display: inline-block;
+            margin: 15px 0;
+            filter: drop-shadow(0 0 40px #ff444466);
+            animation: demonFloat 3s ease-in-out infinite;
+        }
+        @keyframes demonFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+        .demon:active {
+            transform: scale(0.8);
+        }
+        .stats {
+            font-size: 22px;
+            margin: 10px 0;
+        }
+        .stats span {
+            color: #ffcc00;
+        }
+        .boss-bar {
+            background: #1a1f2e;
+            padding: 10px 20px;
+            border-radius: 30px;
+            margin: 15px 0;
+            border: 2px solid #ff4444;
+        }
+        .boss-bar .boss-hp {
+            background: #ff4444;
+            height: 10px;
+            border-radius: 20px;
+            width: 100%;
+            transition: 0.3s;
+        }
+        .shop button {
+            background: #1a2332;
+            color: #fff;
+            border: 2px solid #00d4ff;
+            padding: 14px 20px;
+            border-radius: 16px;
+            font-size: 18px;
+            width: 100%;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .shop button:hover {
+            background: #00d4ff;
+            color: #0b0e14;
+            transform: scale(1.02);
+        }
+        .shop button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .price {
+            color: #ffcc00;
+            font-weight: bold;
+        }
+        .reset, .publish {
+            margin-top: 15px;
+            padding: 14px;
+            border-radius: 16px;
+            font-size: 16px;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 2px solid #ff4444;
+            background: #2a1a1a;
+            color: #ff4444;
+        }
+        .reset:hover, .publish:hover {
+            background: #ff4444;
+            color: #0b0e14;
+        }
+        .publish {
+            border-color: #00d4ff;
+            background: #0b1a2a;
+            color: #00d4ff;
+        }
+        .publish:hover {
+            background: #00d4ff;
+            color: #0b0e14;
+        }
+        .footer {
+            margin-top: 30px;
+            color: #555;
+            font-size: 14px;
+        }
+        .leaderboard {
+            background: #141a24;
+            padding: 15px;
+            border-radius: 16px;
+            margin-top: 15px;
+            border: 1px solid #1e2838;
+        }
+        .leaderboard p {
+            color: #aaa;
+            font-size: 14px;
+            margin: 4px 0;
+        }
+        .leaderboard .top {
+            color: #ffcc00;
+            font-weight: bold;
+        }
+        @media (max-width: 600px) {
+            .demon { font-size: 100px; }
+            h1 { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🐉 <span>Demon</span>Clicker</h1>
+    <div class="demon" id="demon">👹</div>
+    <div class="stats">
+        🩸 Очки: <span id="score">0</span><br>
+        ⚡ За клик: <span id="perClick">1</span>
+    </div>
+
+    <div class="boss-bar">
+        <div style="display: flex; justify-content: space-between;">
+            <span>🐉 Босс</span>
+            <span id="bossHpText">100 / 100</span>
+        </div>
+        <div class="boss-hp" id="bossHpBar" style="width:100%"></div>
+    </div>
+
+    <div class="shop">
+        <button id="upgradeClick"><span>⚡ Улучшить клик</span><span class="price">🪙 <span id="clickPrice">10</span></span></button>
+        <button id="upgradeAuto"><span>🤖 Автокликер</span><span class="price">🪙 <span id="autoPrice">50</span></span></button>
+        <button id="upgradeDemon"><span>👹 Сменить демона</span><span class="price">🪙 <span id="demonPrice">100</span></span></button>
+    </div>
+
+    <div class="leaderboard">
+        <p class="top">🏆 Таблица рекордов</p>
+        <p id="leaderboardList">Нет рекордов</p>
+    </div>
+
+    <button class="reset" id="reset">💀 Сбросить прогресс</button>
+    <button class="publish" id="publishBtn">🌍 Опубликовать игру</button>
+    <div class="footer">Создано для настоящих разработчиков</div>
+</div>
+
+<script>
+    let score = 0;
+    let perClick = 1;
+    let autoPower = 0;
+    let demonIndex = 0;
+    let clickPrice = 10;
+    let autoPrice = 50;
+    let demonPrice = 100;
+
+    let bossHp = 100;
+    let bossMaxHp = 100;
+    let bossActive = false;
+
+    const demons = ['👹', '😈', '👿', '💀', '👾', '🤖', '🐉', '🔥'];
+
+    const scoreEl = document.getElementById('score');
+    const perClickEl = document.getElementById('perClick');
+    const clickPriceEl = document.getElementById('clickPrice');
+    const autoPriceEl = document.getElementById('autoPrice');
+    const demonPriceEl = document.getElementById('demonPrice');
+    const demonEl = document.getElementById('demon');
+    const bossHpBar = document.getElementById('bossHpBar');
+    const bossHpText = document.getElementById('bossHpText');
+    const leaderboardList = document.getElementById('leaderboardList');
+
+    function playSound() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.frequency.value = Math.random() * 400 + 200;
+            osc.type = 'sine';
+            gain.gain.value = 0.1;
+            osc.start();
+            osc.stop(ctx.currentTime + 0.08);
+        } catch(e) {}
+    }
+
+    function updateUI() {
+        scoreEl.textContent = score;
+        perClickEl.textContent = perClick;
+        clickPriceEl.textContent = clickPrice;
+        autoPriceEl.textContent = autoPrice;
+        demonPriceEl.textContent = demonPrice;
+        document.getElementById('upgradeClick').disabled = score < clickPrice;
+        document.getElementById('upgradeAuto').disabled = score < autoPrice;
+        document.getElementById('upgradeDemon').disabled = score < demonPrice;
+    }
+
+    function updateBoss() {
+        bossHpBar.style.width = Math.max(0, (bossHp / bossMaxHp) * 100) + '%';
+        bossHpText.textContent = `${Math.max(0, Math.floor(bossHp))} / ${bossMaxHp}`;
+        if (bossHp <= 0 && bossActive) {
+            bossActive = false;
+            const bonus = Math.floor(bossMaxHp * 0.3);
+            score += bonus;
+            bossMaxHp = Math.floor(bossMaxHp * 1.4) + 20;
+            bossHp = bossMaxHp;
+            alert(`🐉 Босс повержен! +${bonus} очков!`);
+            updateUI();
+        }
+    }
+
+    demonEl.addEventListener('click', () => {
+        score += perClick;
+        playSound();
+        if (!bossActive) {
+            bossActive = true;
+            bossHp = bossMaxHp;
+        }
+        bossHp -= perClick;
+        updateUI();
+        updateBoss();
+    });
+
+    document.getElementById('upgradeClick').addEventListener('click', () => {
+        if (score >= clickPrice) {
+            score -= clickPrice;
+            perClick += 2;
+            clickPrice = Math.floor(clickPrice * 1.6) + 5;
+            updateUI();
+        }
+    });
+
+    document.getElementById('upgradeAuto').addEventListener('click', () => {
+        if (score >= autoPrice) {
+            score -= autoPrice;
+            autoPower += 1;
+            autoPrice = Math.floor(autoPrice * 1.8) + 10;
+            updateUI();
+        }
+    });
+
+    document.getElementById('upgradeDemon').addEventListener('click', () => {
+        if (score >= demonPrice) {
+            score -= demonPrice;
+            demonIndex = (demonIndex + 1) % demons.length;
+            demonEl.textContent = demons[demonIndex];
+            demonPrice = Math.floor(demonPrice * 1.7) + 20;
+            updateUI();
+        }
+    });
+
+    document.getElementById('reset').addEventListener('click', () => {
+        if (confirm('Сбросить всё?')) {
+            score = 0;
+            perClick = 1;
+            autoPower = 0;
+            demonIndex = 0;
+            clickPrice = 10;
+            autoPrice = 50;
+            demonPrice = 100;
+            bossMaxHp = 100;
+            bossHp = bossMaxHp;
+            bossActive = false;
+            demonEl.textContent = demons[0];
+            updateUI();
+            updateBoss();
+        }
+    });
+
+    document.getElementById('publishBtn').addEventListener('click', () => {
+        alert('🌍 Загрузи этот файл на GitHub Pages или любой хостинг, чтобы поделиться игрой!');
+        window.open('https://github.com/SlayerDev819/demon-slayer-game', '_blank');
+    });
+
+    setInterval(() => {
+        if (autoPower > 0) {
+            score += autoPower;
+            if (!bossActive) {
+                bossActive = true;
+                bossHp = bossMaxHp;
+            }
+            bossHp -= autoPower;
+            updateUI();
+            updateBoss();
+        }
+    }, 1000);
+
+    function saveRecord() {
+        const records = JSON.parse(localStorage.getItem('demonClickerRecords') || '[]');
+        records.push(score);
+        records.sort((a, b) => b - a);
+        if (records.length > 5) records.length = 5;
+        localStorage.setItem('demonClickerRecords', JSON.stringify(records));
+        leaderboardList.innerHTML = records.length ? records.map((v, i) => `${i+1}. ${v} очков`).join('<br>') : 'Нет рекордов';
+    }
+
+    setInterval(saveRecord, 30000);
+    saveRecord();
+
+    updateUI();
+    updateBoss();
+</script>
+</body>
+</html>
+
