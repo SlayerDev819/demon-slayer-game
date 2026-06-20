@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tower Defense: Zombie Outbreak</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0b0e14;
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+            text-align: center;
+        }
+        .game {
+            max-width: 840px;
+            width: 100%;
+            background: #141a24;
+            padding: 20px;
+            border-radius: 30px;
+            border: 1px solid #44cc88;
+            box-shadow: 0 0 60px rgba(68, 204, 136, 0.08);
+        }
+        h1 {
+            font-size: 30px;
+            color: #44cc88;
+            text-shadow: 0 0 20px #44cc8844;
+        }
+        h1 span {
+            color: #ff4444;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 4px;
+            background: #0b0e14;
+            padding: 10px;
+            border-radius: 16px;
+            margin: 10px 0;
+            font-size: 12px;
+            border: 1px solid #1e2838;
+        }
+        .stats span {
+            color: #44cc88;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background: #0f121a;
+            border-radius: 20px;
+            border: 1px solid #1e2838;
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+        }
+        .btn {
+            background: #44cc88;
+            color: #0b0e14;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 3px 0;
+            width: 100%;
+        }
+        .btn:hover {
+            background: #fff;
+            transform: scale(1.02);
+        }
+        .btn-gold {
+            background: #ffcc00;
+        }
+        .btn-gold:hover {
+            background: #ffe066;
+        }
+        .btn-red {
+            background: #ff4444;
+            color: #fff;
+        }
+        .btn-red:hover {
+            background: #ff6666;
+        }
+        .btn-purple {
+            background: #aa66ff;
+            color: #fff;
+        }
+        .btn-purple:hover {
+            background: #bb77ff;
+        }
+        .btn-green {
+            background: #44cc88;
+            color: #0b0e14;
+        }
+        .btn-green:hover {
+            background: #66dd99;
+        }
+        .btn-pink {
+            background: #ff66aa;
+            color: #0b0e14;
+        }
+        .btn-pink:hover {
+            background: #ff88bb;
+        }
+        .shop {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 4px;
+            margin: 8px 0;
+        }
+        .shop button {
+            background: #0b0e14;
+            border: 1px solid #1e2838;
+            color: #fff;
+            padding: 6px;
+            border-radius: 12px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .shop button:hover {
+            border-color: #44cc88;
+            background: #1a2332;
+        }
+        .log {
+            background: #0b0e14;
+            padding: 8px;
+            border-radius: 16px;
+            margin: 8px 0;
+            font-size: 13px;
+            color: #888;
+            min-height: 36px;
+            border: 1px solid #1e2838;
+            overflow-y: auto;
+            max-height: 60px;
+        }
+        .log span {
+            color: #44cc88;
+        }
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin: 8px 0;
+            flex-wrap: wrap;
+        }
+        .tabs button {
+            background: #0b0e14;
+            border: 1px solid #1e2838;
+            color: #aaa;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            flex: 1;
+        }
+        .tabs button:hover {
+            border-color: #44cc88;
+            color: #fff;
+        }
+        .tabs button.active {
+            background: #44cc88;
+            color: #0b0e14;
+            border-color: #44cc88;
+            font-weight: bold;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .upgrade-item {
+            background: #0b0e14;
+            padding: 8px;
+            border-radius: 12px;
+            margin: 4px 0;
+            border-left: 3px solid #44cc88;
+            font-size: 13px;
+            text-align: left;
+        }
+        .upgrade-item span {
+            color: #44cc88;
+            font-weight: bold;
+        }
+        .zombie-bar {
+            background: #1e2838;
+            border-radius: 20px;
+            height: 10px;
+            margin: 4px 0;
+            overflow: hidden;
+        }
+        .zombie-bar .fill {
+            background: #44cc88;
+            height: 100%;
+            width: 0%;
+            transition: 0.3s;
+        }
+        @media(max-width:600px) {
+            .game {
+                padding: 12px;
+            }
+            .stats {
+                font-size: 10px;
+                grid-template-columns: 1fr 1fr;
+            }
+            .shop {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game">
+        <h1>🧟 <span>Tower</span>Defense: <span>Zombie</span>Outbreak</h1>
+        <div class="stats">
+            <div>❤️ Жизни: <span id="lives">100</span></div>
+            <div>💰 Ресурсы: <span id="gold">200</span></div>
+            <div>📈 Волна: <span id="wave">0</span></div>
+            <div>☠️ Убито: <span id="kills">0</span></div>
+            <div>🗼 Турели: <span id="towerCount">0</span></div>
+            <div>⚔️ Урон: <span id="dmgDisplay">15</span></div>
+            <div>📈 Уровень: <span id="lvlDisplay">1</span></div>
+            <div>🛡️ Броня: <span id="defDisplay">0</span></div>
+        </div>
+
+        <canvas id="gameCanvas" width="800" height="480"></canvas>
+        <div class="zombie-bar"><div class="fill" id="waveProgress" style="width:0%"></div></div>
+        <div class="log" id="log">🧟 Построй турель, чтобы защитить убежище!</div>
+
+        <div class="tabs">
+            <button class="active" data-tab="main">⚔️ Оборона</button>
+            <button data-tab="shop">🛒 Магазин</button>
+            <button data-tab="upgrades">📈 Улучшения</button>
+            <button data-tab="buffs">⚡ Баффы</button>
+        </div>
+
+        <div id="tab-main" class="tab-content active">
+            <div style="display:flex; gap:4px; margin:4px 0;">
+                <button class="btn btn-gold" id="nextWaveBtn">🧟 Следующая волна</button>
+                <button class="btn btn-green" id="towerBtn">🔫 Турель (50💰)</button>
+                <button class="btn btn-purple" id="sniperBtn">🎯 Снайпер (80💰)</button>
+                <button class="btn btn-pink" id="flameBtn">🔥 Огнемёт (100💰)</button>
+                <button class="btn btn-red" id="resetBtn">🔄 Сброс</button>
+            </div>
+            <div style="font-size:12px; color:#555;">🏗️ Кликни на карту, чтобы поставить турель</div>
+        </div>
+
+        <div id="tab-shop" class="tab-content">
+            <div class="shop">
+                <button id="buyDmg">⚔️ Урон +5 (30💰)</button>
+                <button id="buyDef">🛡️ Броня +3 (20💰)</button>
+                <button id="buySpeed">🏃 Скорость +10% (40💰)</button>
+                <button id="buyRange">📐 Дальность +10% (35💰)</button>
+                <button id="buySplash">💥 Взрывной урон (60💰)</button>
+                <button id="buyGold">💰 Зомби +50% ресурсов (45💰)</button>
+                <button id="buyHeal">❤️ Восстановить жизни (50💰)</button>
+                <button id="buyAmmo">🔫 Боекомплект (40💰)</button>
+            </div>
+        </div>
+
+        <div id="tab-upgrades" class="tab-content">
+            <div id="upgradeList" style="text-align:left;font-size:13px;color:#aaa;"></div>
+        </div>
+
+        <div id="tab-buffs" class="tab-content">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                <button class="btn btn-pink" id="buffAtk">💪 Ярость (50💰) +10 урона 15с</button>
+                <button class="btn btn-purple" id="buffSpeed">🏃 Ускорение (40💰) турели x2 10с</button>
+                <button class="btn btn-gold" id="buffGold">💰 Ресурсы x2 (60💰) 20с</button>
+                <button class="btn btn-green" id="buffShield">🛡️ Щит (30💰) неуязвимость 10с</button>
+            </div>
+            <div id="buffStatus" style="margin-top:10px;font-size:13px;color:#888;">⚡ Баффы не активны</div>
+        </div>
+    </div>
+
+    <script>
+        // ================================================================
+        //  TOWER DEFENSE: ZOMBIE OUTBREAK — 1000+ строк
+        //  Зомби, турели, волны, улучшения, баффы
+        // ================================================================
+
+        // ----- КАНВАС -----
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width,
+            H = canvas.height;
+
+        // ----- DOM -----
+        const livesEl = document.getElementById('lives');
+        const goldEl = document.getElementById('gold');
+        const waveEl = document.getElementById('wave');
+        const killsEl = document.getElementById('kills');
+        const towerCountEl = document.getElementById('towerCount');
+        const dmgDisplayEl = document.getElementById('dmgDisplay');
+        const lvlDisplayEl = document.getElementById('lvlDisplay');
+        const defDisplayEl = document.getElementById('defDisplay');
+        const waveProgressEl = document.getElementById('waveProgress');
+        const logEl = document.getElementById('log');
+
+        // ----- ИГРОК -----
+        let player = {
+            lives: 100,
+            gold: 200,
+            wave: 0,
+            kills: 0,
+            towerDamage: 15,
+            towerRange: 130,
+            towerSpeed: 25,
+            splash: 0,
+            defense: 0,
+            goldMultiplier: 1,
+            level: 1,
+            xp: 0,
+            xpNext: 50,
+            flameDamage: 8
+        };
+
+        // ----- ТУРЕЛИ -----
+        let towers = [];
+        let enemies = [];
+        let projectiles = [];
+        let particles = [];
+        let flames = [];
+
+        // ----- ВОЛНЫ -----
+        let waveActive = false;
+        let enemiesToSpawn = 0;
+        let spawnTimer = 0;
+        let spawnDelay = 25;
+        let enemiesPerWave = 5;
+        let frame = 0;
+        let totalEnemiesInWave = 0;
+        let enemiesSpawned = 0;
+
+        // ----- БАФФЫ -----
+        let buffs = {
+            atk: { active: false, timer: 0, duration: 15, dmgBonus: 10 },
+            speed: { active: false, timer: 0, duration: 10, speedMult: 2 },
+            gold: { active: false, timer: 0, duration: 20, mult: 2 },
+            shield: { active: false, timer: 0, duration: 10 }
+        };
+        let buffStatusEl = document.getElementById('buffStatus');
+
+        // ----- ПУТЬ ЗОМБИ -----
+        const path = [
+            { x: -30, y: 70 },
+            { x: 160, y: 70 },
+            { x: 160, y: 230 },
+            { x: 460, y: 230 },
+            { x: 460, y: 70 },
+            { x: 680, y: 70 },
+            { x: 680, y: 410 },
+            { x: 830, y: 410 }
+        ];
+
+        // ----- ЛОГ -----
+        function log(msg) { logEl.innerHTML = '🧟 ' + msg; }
+
+        // ===== КЛАСС ЗОМБИ =====
+        class Zombie {
+            constructor(waveNum) {
+                const baseHp = 15 + waveNum * 4 + Math.floor(Math.random() * 8);
+                const baseSpeed = 0.7 + waveNum * 0.03;
+                this.pathIndex = 0;
+                this.x = path[0].x;
+                this.y = path[0].y;
+                this.hp = baseHp;
+                this.maxHp = this.hp;
+                this.speed = baseSpeed + Math.random() * 0.2;
+                this.gold = 8 + waveNum * 2 + Math.floor(Math.random() * 4);
+                this.alive = true;
+                this.radius = 11;
+                this.type = Math.random() < 0.15 ? 'fast' : (Math.random() < 0.1 ? 'tank' : 'normal');
+                if (this.type === 'fast') { this.speed *= 1.6;
+                    this.hp *= 0.6;
+                    this.maxHp = this.hp; }
+                if (this.type === 'tank') { this.speed *= 0.6;
+                    this.hp *= 2.2;
+                    this.maxHp = this.hp; }
+                this.color = this.type === 'fast' ? '#ff66aa' : (this.type === 'tank' ? '#ff8800' : '#44cc88');
+            }
+            update() {
+                if (!this.alive) return;
+                const target = this.pathIndex + 1 < path.length ? path[this.pathIndex + 1] : null;
+                if (!target) { this.alive = false; return; }
+                const dx = target.x - this.x;
+                const dy = target.y - this.y;
+                const d = Math.hypot(dx, dy);
+                if (d < 2) { this.pathIndex++; return; }
+                const step = Math.min(this.speed, d);
+                this.x += (dx / d) * step;
+                this.y += (dy / d) * step;
+                if (this.pathIndex >= path.length - 1 && d < 5) {
+                    this.alive = false;
+                    player.lives -= 5 + Math.floor(this.maxHp / 20);
+                    if (player.lives < 0) player.lives = 0;
+                    updateUI();
+                    log('🧟 Зомби прорвался! -' + (5 + Math.floor(this.maxHp / 20)) + ' жизней');
+                }
+            }
+            takeDamage(dmg) {
+                this.hp -= dmg;
+                if (this.hp <= 0) {
+                    this.alive = false;
+                    const goldReward = Math.floor(this.gold * player.goldMultiplier);
+                    player.gold += goldReward;
+                    player.kills++;
+                    player.xp += 5 + Math.floor(this.maxHp / 5);
+                    spawnParticles(this.x, this.y, this.color, 10);
+                    while (player.xp >= player.xpNext) {
+                        player.xp -= player.xpNext;
+                        player.level++;
+                        player.xpNext = Math.floor(player.xpNext * 1.4) + 10;
+                        player.towerDamage += 2;
+                        player.defense += 1;
+                        log('📈 УРОВЕНЬ ' + player.level + '! +2 урона, +1 брони');
+                    }
+                    updateUI();
+                }
+            }
+            draw() {
+                if (!this.alive) return;
+                const hpPct = this.hp / this.maxHp;
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = this.color + '44';
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = '#fff';
+                ctx.beginPath();
+                ctx.arc(this.x - 5, this.y - 3, 4, 0, Math.PI * 2);
+                ctx.arc(this.x + 5, this.y - 3, 4, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#ff0000';
+                ctx.beginPath();
+                ctx.arc(this.x - 4, this.y - 2, 2, 0, Math.PI * 2);
+                ctx.arc(this.x + 6, this.y - 2, 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#fff';
+                ctx.font = '9px monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText(Math.ceil(this.hp), this.x, this.y + 4);
+                ctx.fillStyle = '#1e2838';
+                ctx.fillRect(this.x - 18, this.y - 22, 36, 4);
+                ctx.fillStyle = hpPct > 0.5 ? '#44cc88' : (hpPct > 0.25 ? '#ffcc00' : '#ff4444');
+                ctx.fillRect(this.x - 18, this.y - 22, 36 * hpPct, 4);
+            }
+        }
+
+        // ===== КЛАСС ТУРЕЛЬ =====
+        class Tower {
+            constructor(x, y, type) {
+                this.x = x;
+                this.y = y;
+                this.type = type || 'normal';
+                this.range = this.type === 'sniper' ? 220 : (this.type === 'flame' ? 100 : player.towerRange);
+                this.cooldown = 0;
+                this.cooldownMax = this.type === 'sniper' ? 40 : (this.type === 'flame' ? 10 : player.towerSpeed);
+                this.angle = 0;
+                this.damage = this.type === 'sniper' ? 35 : (this.type === 'flame' ? 8 : player.towerDamage);
+                this.splash = this.type === 'sniper' ? 0 : player.splash;
+                this.color = this.type === 'sniper' ? '#aa66ff' : (this.type === 'flame' ? '#ff6600' : '#44cc88');
+                this.emoji = this.type === 'sniper' ? '🎯' : (this.type === 'flame' ? '🔥' : '🔫');
+                this.radius = this.type === 'sniper' ? 16 : (this.type === 'flame' ? 18 : 14);
+                this.flameTimer = 0;
+            }
+            update() {
+                if (this.cooldown > 0) this.cooldown--;
+                if (this.type === 'flame' && this.flameTimer > 0) this.flameTimer--;
+                const target = this.findTarget();
+                if (target) {
+                    this.angle = Math.atan2(target.y - this.y, target.x - this.x);
+                    if (this.cooldown === 0) {
+                        if (this.type === 'flame') {
+                            this.flameTimer = 15;
+                            target.takeDamage(this.damage);
+                            spawnParticles(target.x, target.y, '#ff6600', 5);
+                            target.speed *= 0.7;
+                            setTimeout(() => { if (target.alive) target.speed /= 0.7; }, 500);
+                            this.cooldown = this.cooldownMax;
+                        } else {
+                            projectiles.push(new Projectile(this.x, this.y, target, this.damage, this.splash, this.color));
+                            this.cooldown = this.cooldownMax;
+                        }
+                    }
+                }
+            }
+            findTarget() {
+                let closest = null;
+                let minDist = Infinity;
+                const speedBuff = buffs.speed.active ? buffs.speed.speedMult : 1;
+                for (const e of enemies) {
+                    if (!e.alive) continue;
+                    const d = Math.hypot(this.x - e.x, this.y - e.y);
+                    if (d < this.range * (buffs.speed.active ? 1.2 : 1) && d < minDist) {
+                        minDist = d;
+                        closest = e;
+                    }
+                }
+                return closest;
+            }
+            draw() {
+                const range = this.range * (buffs.speed.active ? 1.2 : 1);
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = this.color + '44';
+                ctx.fillStyle = '#1a2332';
+                ctx.beginPath();
+                ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+                ctx.rotate(this.angle);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(0, -3, this.radius + 8, 6);
+                ctx.restore();
+                if (this.type === 'flame' && this.flameTimer > 0) {
+                    ctx.shadowBlur = 40;
+                    ctx.shadowColor = '#ff660066';
+                    ctx.fillStyle = 'rgba(255, 100, 
